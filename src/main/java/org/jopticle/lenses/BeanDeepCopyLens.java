@@ -3,11 +3,13 @@ package org.jopticle.lenses;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class BeanLens<A, B> extends Lens<A, B> {
+import com.rits.cloning.Cloner;
+
+public class BeanDeepCopyLens<A, B> extends Lens<A, B> {
 	private Method getMethod;
 	private Method setMethod;
 
-	public BeanLens(String fieldName, Class<A> theType) {
+	public BeanDeepCopyLens(String fieldName, Class<A> theType) {
 		for (Method m : theType.getMethods()) {
 			if (m.getName().toLowerCase()
 					.equals("get" + fieldName.toLowerCase())) {
@@ -38,8 +40,10 @@ public class BeanLens<A, B> extends Lens<A, B> {
 
 	@Override
 	public A set(A a, B b) {
+		Cloner cloner = new Cloner();
+		A copy = cloner.deepClone(a);
 		try {
-			setMethod.invoke(a, b);
+			setMethod.invoke(copy, b);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -47,7 +51,7 @@ public class BeanLens<A, B> extends Lens<A, B> {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		return a;
+		return copy;
 	}
 
 }
