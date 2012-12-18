@@ -5,6 +5,15 @@ import java.lang.reflect.Method;
 
 import com.rits.cloning.Cloner;
 
+/**
+ * Implementation of the abstract {@linkplain Lens}. Uses java reflection to
+ * look for the getter and setter methods. <br/>
+ * <br/>
+ * The setter performs a deep copy of the source object and insert the value
+ * into the copy than returns the copy.
+ * 
+ * @author Frogurth
+ */
 public class BeanDeepCopyLens<A, B> extends Lens<A, B> {
 	private Method getMethod;
 	private Method setMethod;
