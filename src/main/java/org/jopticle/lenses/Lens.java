@@ -1,9 +1,12 @@
 package org.jopticle.lenses;
 
+import fj.F;
+
 public abstract class Lens<A, B> {
 	public abstract B get(A a);
+
 	public abstract A set(A a, B b);
-	
+
 	public <C> Lens<C, B> compose(final Lens<C, A> that) {
 		final Lens<A, B> thisLens = this;
 		return new Lens<C, B>() {
@@ -18,8 +21,12 @@ public abstract class Lens<A, B> {
 			}
 		};
 	}
-	
+
 	public <C> Lens<A, C> andThen(Lens<B, C> that) {
 		return that.compose(this);
+	}
+
+	public A mod(A a, F<B, B> f) {
+		return set(a, f.f(get(a)));
 	}
 }
