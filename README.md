@@ -41,7 +41,7 @@ import fj.F2;
 
 ...
 
-addressLens = lens(new F<Person, Address>() {
+Lens<Person, Address> addressLens = lens(new F<Person, Address>() {
   		@Override
 			public Address f(Person arg0) {
 				return arg0.getAddress();
@@ -56,7 +56,7 @@ addressLens = lens(new F<Person, Address>() {
 			}
 		});
 
-		zipCodeLens = lens(new F<Address, String>() {
+Lens<Address, String> zipCodeLens = lens(new F<Address, String>() {
 			@Override
 			public String f(Address arg0) {
 				return arg0.getZipCode();
